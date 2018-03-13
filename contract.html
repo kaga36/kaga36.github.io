@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.rawgit.com/ethereum/web3.js/develop/dist/web3.js"></script>
+    <script src="./jquery-3.3.1.min.js"></script>
+    <title>Simple Wallet</title>
+<script>
+var Web3 = require('web3');
+var web3 = new Web3();
+web3.setProvider(new Web3.providers.HttpProvider('http://localhost:8123'));
+
+function updateBalance() {
+    var address = web3.eth.accounts[0];
+    var balance = web3.fromWei(web3.eth.getBalance(address), 'ether');
+
+    $('#address').val(address);
+    $('#balanceAmount').val(balance);
+}
+
+function getAccountlist() {
+ var list = web3.eth.accounts;
+ var result = "";
+ $.each(list, function(index) {
+	result += "<li>"+list[index]+"</li>";
+ });
+ $("#ulList").html(result);
+
+}
+
+</script>
+<p>web3.js Transaction 및 Filter </p>
+</br>
+<div>
+<p>Account Information</p>
+
+AccountList :  
+<ul id="ulList"> 
+
+</ul>
+
+</br>
+Account Address <input type="text" id="address" /> </br>
+Balance Amount(Ether) <input type="text" id="balanceAmount" value="" />
+
+</div>
+<input type="button" value="search" onclick="updateBalance();" />
+<input type="button" value="viewAccounts" onclick="getAccountlist();" />
+
+
+</html>
