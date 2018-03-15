@@ -11,7 +11,38 @@
    // var web3 = new Web3();
     //ropsten 테스트넷에 프로바이더 연결
    // web3.setProvider(new web3.providers.HttpProvider("https://ropsten.infura.io/"));
+
+	var providers = require('ethers').providers;
+	// Connect to Ropsten (the test network)
 	
+	// You may specify any of:
+	// - boolean; true = ropsten, false = homestead
+	// - object; { name: 'ropsten', chainId: 3 } (see ethers.networks);
+	// - string; e.g. 'homestead', 'ropsten', 'rinkeby', 'kovan'
+	var network = providers.networks.ropsten;
+	
+	// Connect to INFUA
+	//var infuraProvider = new providers.InfuraProvider(network);
+	
+	// Connect to Etherscan
+	//var etherscanProvider = new providers.EtherscanProvider(network);
+	
+	// Creating a provider to automatically fallback onto Etherscan
+	// if INFURA is down
+	/* var fallbackProvider = new providers.FallbackProvider([
+	    infuraProvider,
+	    etherscanProvider
+	]); */
+	
+	// This is equivalent to using the getDefaultProvider
+	//var provider = providers.getDefaultProvider(network)
+	
+	// Connect to a local Parity instance
+	//var provider = new providers.JsonRpcProvider('http://localhost:8545', network);
+	
+	// Connect to an injected Web3's provider (e.g. MetaMask)
+	var web3Provider = new providers.Web3Provider(web3.currentProvider, network);
+    
     window.addEventListener('load', function() {
 
     	  // Checking if Web3 has been injected by the browser (Mist/MetaMask)
@@ -21,7 +52,8 @@
   	  } else {
   	    console.log('No web3? You should consider trying MetaMask!')
   	    // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
-  	    window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8123"));
+  	   // window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8123"));
+  	   	window.web3 = new Web3(new providers.Web3Provider(web3.currentProvider, network));
   	  }
   	  // Now you can start your app & access web3 freely:
   	  //startApp();
