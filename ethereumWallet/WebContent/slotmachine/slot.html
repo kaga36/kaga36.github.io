@@ -7,11 +7,30 @@
 <!-- <script src="https://cdn.rawgit.com/ethereum/web3.js/develop/dist/web3.js"></script> -->
 <script type="text/javascript">
    
-    var Web3 = require('web3');
-    var web3 = new Web3();
+    //var Web3 = require('web3');
+   // var web3 = new Web3();
     //ropsten 테스트넷에 프로바이더 연결
-    web3.setProvider(new web3.providers.HttpProvider("https://ropsten.infura.io/"));
-	var contract = web3.eth.contract([ { "constant": false, "inputs": [], "name": "bet", "outputs": [], "payable": true, "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "uint256" } ], "name": "games", "outputs": [ { "name": "player", "type": "address", "value": "0x" }, { "name": "win", "type": "bool", "value": false }, { "name": "betting_amount", "type": "uint256", "value": "0" }, { "name": "game_result", "type": "uint256", "value": "0" }, { "name": "reward", "type": "uint256", "value": "0" }, { "name": "blockNumber", "type": "uint256", "value": "0" } ], "payable": false, "type": "function" }, { "constant": false, "inputs": [], "name": "killcontract", "outputs": [], "payable": false, "type": "function" }, { "inputs": [], "payable": true, "type": "constructor" }, { "anonymous": false, "inputs": [ { "indexed": false, "name": "player", "type": "address" }, { "indexed": false, "name": "win", "type": "bool" }, { "indexed": false, "name": "amount", "type": "uint256" }, { "indexed": false, "name": "n1", "type": "uint256" }, { "indexed": false, "name": "n2", "type": "uint256" }, { "indexed": false, "name": "n3", "type": "uint256" } ], "name": "sendResult", "type": "event" } ]).at("0x112c9C3f1E9eC3692aCA4BE02Fcc4AA845537826");	
+   // web3.setProvider(new web3.providers.HttpProvider("https://ropsten.infura.io/"));
+	
+    window.addEventListener('load', function() {
+
+    	  // Checking if Web3 has been injected by the browser (Mist/MetaMask)
+  	  if (typeof web3 !== 'undefined') {
+  	    // Use Mist/MetaMask's provider
+  	    window.web3 = new Web3(web3.currentProvider);
+  	  } else {
+  	    console.log('No web3? You should consider trying MetaMask!')
+  	    // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
+  	    window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8123"));
+  	  }
+  	  // Now you can start your app & access web3 freely:
+  	  //startApp();
+	});
+    
+    
+    
+    
+    var contract = web3.eth.contract([ { "constant": false, "inputs": [], "name": "bet", "outputs": [], "payable": true, "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "uint256" } ], "name": "games", "outputs": [ { "name": "player", "type": "address", "value": "0x" }, { "name": "win", "type": "bool", "value": false }, { "name": "betting_amount", "type": "uint256", "value": "0" }, { "name": "game_result", "type": "uint256", "value": "0" }, { "name": "reward", "type": "uint256", "value": "0" }, { "name": "blockNumber", "type": "uint256", "value": "0" } ], "payable": false, "type": "function" }, { "constant": false, "inputs": [], "name": "killcontract", "outputs": [], "payable": false, "type": "function" }, { "inputs": [], "payable": true, "type": "constructor" }, { "anonymous": false, "inputs": [ { "indexed": false, "name": "player", "type": "address" }, { "indexed": false, "name": "win", "type": "bool" }, { "indexed": false, "name": "amount", "type": "uint256" }, { "indexed": false, "name": "n1", "type": "uint256" }, { "indexed": false, "name": "n2", "type": "uint256" }, { "indexed": false, "name": "n3", "type": "uint256" } ], "name": "sendResult", "type": "event" } ]).at("0x112c9C3f1E9eC3692aCA4BE02Fcc4AA845537826");	
 	var event=contract.sendResult();
 	event.watch(function(err, result) {
 	if(err){
